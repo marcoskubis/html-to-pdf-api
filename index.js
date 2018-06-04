@@ -1,29 +1,31 @@
-const wkhtmltopdf = require('wkhtmltopdf')
-const fs = require("fs")
+require('dotenv').config()
+const express = require('express')
+const HtmlPDF = require('./html-pdf')
+const fs = require('fs');
 
-wkhtmltopdf.command = '~/Downloads/wkhtmltox/bin/wkhtmltopdf';
 
-var data = {
-	inputFile: "./inputs/file.html",
-	outputFile: "./outputs/out.pdf",
-	pageSize: 'A4'
-}
+const app = express()
 
-fs.readFile(data.inputFile, convertToPDF)
+app.get('/', (request, response) => {
+	response.send("Hello world!")
+})
 
-function convertToPDF(err, html) {
-	if (err) {
-		return false
+app.get('/convert', (request, response) => {
+	var data = {
+		inputFile: "./inputs/file.html",
+		pageSize: 'A4',
+		filename: 'report.pdf',
 	}
+	HtmlPDF.convert(data, stream => {
+		response.setHeader('Content-Type', 'application/pdf');
+		response.setHeader('Content-Disposition', 'inline; filename=' + data.filename);
+		stream.pipe(response);
+	});
+})
 
-	wkhtmltopdf(html, {
-		pageSize: data.pageSize,
-		'print-media-type': true,
-		'margin-bottom': 0,
-		'margin-top': 0,
-		'margin-left': 0,
-		'margin-right': 0,
-		'zoom': 2,
-	}).pipe(fs.createWriteStream(data.outputFile))
-}
+
+app.listen(3000, () => {
+	console.log('Example app listening on port 3000!')
+})
+
 
