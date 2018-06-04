@@ -1,31 +1,33 @@
 require('dotenv').config()
+
 const express = require('express')
-const HtmlPDF = require('./html-pdf')
-const fs = require('fs');
+const bodyParser = require('body-parser')
+const controllers = require('./controllers')
+const authenticate = require('./middlewares/auth')
 
-
+// App
 const app = express()
 
-app.get('/', (request, response) => {
-	response.send("Hello world!")
+// Middlewares
+app.use(bodyParser.json())
+app.use('/convert', authenticate)
+
+// Routes
+app.get('/', controllers.home.index)
+app.post('/convert', controllers.convert.index)
+
+// Error handling
+app.use(function (err, req, res, next) {
+	var statusCode = 500
+  res.status(statusCode).json({
+  	status: statusCode,
+  	message: err.message || err
+  });
 })
 
-app.get('/convert', (request, response) => {
-	var data = {
-		inputFile: "./inputs/file.html",
-		pageSize: 'A4',
-		filename: 'report.pdf',
-	}
-	HtmlPDF.convert(data, stream => {
-		response.setHeader('Content-Type', 'application/pdf');
-		response.setHeader('Content-Disposition', 'inline; filename=' + data.filename);
-		stream.pipe(response);
-	});
-})
-
-
-app.listen(3000, () => {
-	console.log('Example app listening on port 3000!')
+// Server
+app.listen(process.env.PORT, () => {
+	console.log('Example app listening on port ' + process.env.PORT)
 })
 
 

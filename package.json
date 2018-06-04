@@ -4,6 +4,7 @@
   "description": "HTML to PDF node API",
   "main": "index",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "wkhtmltopdf": "^0.3.4"

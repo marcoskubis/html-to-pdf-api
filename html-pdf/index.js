@@ -4,14 +4,8 @@ const fs = require("fs")
 wkhtmltopdf.command = process.env.WKHTMLTOPDF_COMMAND;
 
 exports.convert = function (data, cb) {
-	return loadFile(data.inputFile)
-			.then(contents => {
-				return makeConversion(contents, data.outputFile, data.pageSize, cb)
-			}, err => {
-				throw err.message;
-			})
+	return makeConversion(data.contents, data.pageSize, cb);
 }
-
 
 function loadFile(file) {
 	return new Promise((resolve, reject) => {
@@ -24,8 +18,7 @@ function loadFile(file) {
 		})
 }
 
-
-function makeConversion(contents, outputFile, size, cb) {
+function makeConversion(contents, size, cb) {
 	return new Promise((resolve, reject) => {
 		wkhtmltopdf(contents, {
 			'pageSize': size,
