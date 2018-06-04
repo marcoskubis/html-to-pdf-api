@@ -1,0 +1,25 @@
+{
+  "name": "html-to-pdf-api",
+  "version": "1.0.0",
+  "description": "HTML to PDF node API",
+  "main": "index",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "wkhtmltopdf": "^0.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcoskubis/html-to-pdf-api.git"
+  },
+  "author": "Marcos Kubis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcoskubis/html-to-pdf-api/issues"
+  },
+  "homepage": "https://github.com/marcoskubis/html-to-pdf-api#readme"
+}
