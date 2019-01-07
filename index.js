@@ -28,6 +28,6 @@ app.use(function (err, req, res, next) {
 // Server
 app.listen(process.env.PORT, () => {
 	console.log('HTML to PDF app listening on port ' + process.env.PORT)
-})
+});
 
 
